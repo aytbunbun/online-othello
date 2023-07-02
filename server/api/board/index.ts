@@ -1,6 +1,6 @@
 export type Methods = {
   get: {
-    resBody: number[][];
+    resBody: { board: number[][]; yourColor: number; turnColor: number };
   };
   post: {
     reqBody: { x: number; y: number };

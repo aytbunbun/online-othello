@@ -9,14 +9,18 @@ import { userAtom } from '../atoms/user';
 import styles from './index.module.css';
 
 const Home = () => {
-  const turnColor = 1;
-  const colors: string[] = ['', '黒のターン', '白のターン'];
+  const colors: string[] = ['', 'あなたは黒です', 'あなたは白です'];
+  const turns: string[] = ['', '黒の番です', '白の番です'];
   const [user] = useAtom(userAtom);
   const [board, setBoard] = useState<number[][]>();
+  const [yourColor, setYourColor] = useState<number>();
+  const [turn, setTurn] = useState<number>();
   const fetchBorad = async () => {
     const res = await apiClient.board.$get().catch(returnNull);
     if (res !== null) {
-      setBoard(res);
+      setBoard(res.board);
+      setYourColor(res.yourColor);
+      setTurn(res.turnColor);
     }
   };
   const onClick = async (x: number, y: number) => {
@@ -29,7 +33,7 @@ const Home = () => {
       clearInterval(cancelId);
     };
   }, []);
-  if (!board || !user) return <Loading visible />;
+  if (!board || !user || !yourColor || !turn) return <Loading visible />;
 
   return (
     <>
@@ -37,12 +41,12 @@ const Home = () => {
       <div className={styles.container}>
         <div
           style={{
-            color: turnColor === 1 ? '#000' : '#fff',
+            color: yourColor === 1 ? '#000' : '#fff',
             backgroundColor: 'green',
-            fontSize: 60,
+            fontSize: 30,
           }}
         >
-          {colors[turnColor]}
+          {`${colors[yourColor]}-${turns[turn]}`}
         </div>
         <div className={styles.board}>
           {board.map((row, y) =>

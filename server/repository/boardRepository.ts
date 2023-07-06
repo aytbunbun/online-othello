@@ -69,10 +69,8 @@ export const onClick = (x: number, y: number) => {
   if (board[y][x] === 3) {
     const stones = gameSystem(x, y, false, turn, board).board;
 
-    for (let i = 0; i < 8; i++) {
-      for (let j = 0; j < 8; j++) {
-        stones[i][j] %= 3;
-      }
+    for (let n = 0; n < 64; n++) {
+      stones[Math.floor(n / 8)][n % 8] %= 3;
     }
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
@@ -86,10 +84,8 @@ export const onClick = (x: number, y: number) => {
     if (!stones.some((row) => row.includes(3))) {
       nextTurnColor = turn;
     }
-    for (let i = 0; i < 8; i++) {
-      for (let j = 0; j < 8; j++) {
-        stones[i][j] %= 3;
-      }
+    for (let n = 0; n < 64; n++) {
+      stones[Math.floor(n / 8)][n % 8] %= 3;
     }
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
